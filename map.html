@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>박찬대 유세 지도</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    #map { height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const schedule = [
+      // 5월 12일 (파란색)
+      { time: "09:00", title: "중앙선거대책위원회 출정식", coords: [37.5704, 126.9769], color: 'blue' },
+      { time: "12:30", title: "신포시장", coords: [37.4717, 126.6212], color: 'blue' },
+      { time: "13:00", title: "답동성당 앞 사거리", coords: [37.4727, 126.6232], color: 'blue' },
+      { time: "14:00", title: "가좌시장", coords: [37.4932, 126.6756], color: 'blue' },
+      { time: "15:00", title: "청라롯데마트", coords: [37.5386, 126.6298], color: 'blue' },
+      { time: "16:00", title: "계산역 사거리", coords: [37.5383, 126.7253], color: 'blue' },
+      { time: "18:00", title: "인천의 빛 유세본부 출정식", coords: [37.4898, 126.7213], color: 'blue' },
+      { time: "19:30", title: "부평역 인근 상가", coords: [37.4906, 126.7223], color: 'blue' },
+
+      // 5월 13일 (초록색)
+      { time: "10:00", title: "예산역전시장", coords: [36.6802, 126.8471], color: 'green' },
+      { time: "11:20", title: "내포시 상가방문", coords: [36.6588, 126.6723], color: 'green' },
+      { time: "14:00", title: "논산화지시장", coords: [36.1918, 127.0887], color: 'green' },
+      { time: "15:00", title: "논산시장 상인회", coords: [36.1918, 127.0887], color: 'green' },
+      { time: "16:00", title: "계룡 간담회", coords: [36.2744, 127.2431], color: 'green' },
+      { time: "16:30", title: "계룡시장", coords: [36.2764, 127.2428], color: 'green' },
+      { time: "17:30", title: "금암사거리", coords: [36.2798, 127.2382], color: 'green' },
+
+      // 5월 14일 (노란색)
+      { time: "13:10", title: "제천 내토시장", coords: [37.1365, 128.2121], color: 'orange' },
+      { time: "14:50", title: "충주 자유시장", coords: [36.9910, 127.9268], color: 'orange' },
+      { time: "16:10", title: "괴산 전통시장", coords: [36.8104, 127.7987], color: 'orange' },
+      { time: "17:50", title: "청주 가경터미널시장", coords: [36.6376, 127.4316], color: 'orange' },
+
+      // 5월 15일 (보라색)
+      { time: "10:00", title: "세종 간담회", coords: [36.5042, 127.2590], color: 'purple' },
+      { time: "11:00", title: "조치원 전통시장", coords: [36.6010, 127.2891], color: 'purple' },
+      { time: "12:10", title: "정부세종청사 앞", coords: [36.5043, 127.2658], color: 'purple' },
+      { time: "13:30", title: "국립대전현충원", coords: [36.3384, 127.3085], color: 'purple' },
+      { time: "14:10", title: "충남대 앞", coords: [36.3649, 127.3446], color: 'purple' },
+      { time: "15:00", title: "카이스트 유세", coords: [36.3724, 127.3628], color: 'purple' },
+      { time: "17:00", title: "이글스파크 유세", coords: [36.3195, 127.4193], color: 'purple' }
+    ];
+
+    const map = L.map('map').setView([36.5, 127.5], 8);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+    }).addTo(map);
+
+    const latlngs = [];
+
+    schedule.forEach(event => {
+      const marker = L.circleMarker(event.coords, {
+        color: event.color,
+        radius: 7,
+        fillOpacity: 0.8
+      })
+      .addTo(map)
+      .bindPopup(`<strong>${event.time}</strong><br>${event.title}`);
+
+      latlngs.push(event.coords);
+    });
+
+    const polyline = L.polyline(latlngs, {color: 'gray'}).addTo(map);
+    map.fitBounds(polyline.getBounds());
+  </script>
+</body>
+</html>
